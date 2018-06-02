@@ -15,6 +15,16 @@ td{
   text-align: center;
 }
 
+#restart {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#restart:hover {
+  background-color: #f0f0f5;
+}
+
 #timer {
   text-align: center;
 }
