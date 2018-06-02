@@ -1,4 +1,9 @@
 var clickedArray = [];
+// created interval global variable to stop timer using clearInterval()
+var interval;
+var started = false;
+// keep track of the elapsed time
+var time = 0;
 
 setUp();
 
@@ -14,6 +19,16 @@ function reveal(cell){
   cell.style.backgroundColor = " #ffff66";
   cell.innerHTML = cell.value;
   cell.clicked = true;
+}
+
+function startTimer(){
+  if (started == false){
+    interval = setInterval(function(){
+      time++;
+      document.getElementById("timer").innerHTML = "Time Elapsed: " + time;
+    },1000)
+    started = true;
+  }
 }
 
 function setUp(){
@@ -40,6 +55,7 @@ function setUp(){
     });
 
     cell.addEventListener('click',function(){
+      startTimer();
       if(this.clicked == false && this.completed == false){
         clickedArray.push(this);
         reveal(this);
