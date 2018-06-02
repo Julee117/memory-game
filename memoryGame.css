@@ -1,13 +1,13 @@
 table, td {
-    border: 5px solid black;
-    margin: auto;
+  border: 5px solid black;
+  margin: auto;
 }
 
 td{
-    width:100px;
-    height:100px;
-    text-align: center;
-    background-color:  #66ffcc;
+  width:100px;
+  height:100px;
+  text-align: center;
+  background-color: #66ffcc;
 }
 
 #button {
