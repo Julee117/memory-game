@@ -1,0 +1,16 @@
+table, td {
+    border: 5px solid black;
+    margin: auto;
+}
+
+td{
+    width:100px;
+    height:100px;
+    text-align: center;
+    background-color:  #66ffcc;
+}
+
+#button {
+  margin-top: 10px;
+  text-align: center;
+}
