@@ -4,6 +4,8 @@ var interval;
 var started = false;
 // keep track of the elapsed time
 var time = 0;
+var ready = true;
+var numCompleted = 0;
 
 setUp();
 
@@ -21,17 +23,39 @@ function reveal(cell){
   cell.clicked = true;
 }
 
+function hide(cell){
+  cell.style.backgroundColor = "#66ffcc";
+  cell.innerHTML = "";
+  cell.clicked = false;
+}
+
+function complete(cell){
+  numCompleted++;
+  cell.completed = true;
+  cell.style.backgroundColor = "#ff3385";
+}
+
 function startTimer(){
   if (started == false){
     interval = setInterval(function(){
       time++;
       document.getElementById("timer").innerHTML = "Time Elapsed: " + time;
-    },1000)
+    }, 1000)
     started = true;
   }
 }
 
 function setUp(){
+  document.addEventListener('keydown', function(event){
+    if(event.key > 0 && event.key < 10 ){
+        grid[event.key - 1].click();
+    }
+  });
+
+  document.getElementById('restart').addEventListener('click', function(){
+    location.reload();
+  });
+
   var grid = document.getElementsByTagName("td");
   var randomized = randomNumbers();
 
@@ -46,7 +70,7 @@ function setUp(){
 
     cell.addEventListener("mouseenter", function(){
       if(this.completed == false && this.clicked == false)
-        this.style.background = "#ff3385";
+        this.style.background = "#00e699";
     });
 
     cell.addEventListener("mouseleave", function(){
@@ -55,10 +79,41 @@ function setUp(){
     });
 
     cell.addEventListener('click',function(){
+      if(ready == false)
+        return;
       startTimer();
       if(this.clicked == false && this.completed == false){
         clickedArray.push(this);
         reveal(this);
+      }
+
+      if(clickedArray.length == 2){
+        if(clickedArray[0].value == clickedArray[1].value){
+          //if a matching pair is found
+          complete(clickedArray[0]);
+          complete(clickedArray[1]);
+
+          clickedArray = [];
+
+          if(numCompleted == 8){
+            alert(`You won in ${time} seconds!`);
+            clearInterval(interval);
+          }
+        } else {
+          //if a matching pair is not found
+          ready = false;
+          document.getElementById("gridTable").style.border = "5px solid red";
+
+          setTimeout(function(){
+            hide(clickedArray[0]);
+            hide(clickedArray[1]);
+
+            clickedArray = [];
+
+            ready = true;
+            document.getElementById("gridTable").style.border = "5px solid black";
+          }, 500);
+        }
       }
     });
   }
